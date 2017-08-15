@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+
+{% form_theme form _self "bootstrap_3_layout.html.twig" %}
+
+                        {% block _text_question_answers_entry_widget %}
+                            <div class="row closeable">
+
+                                <span class="close-button"></span>
+                                <div class="col-xs-10">
+                                    {{ form_widget(form.answer) }}
+                                </div>
+                                <div class="col-xs-2">
+                                    {{ form_widget(form.isCorrect) }}
+
+                                </div>
+                            </div>
+
+                        {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel">
+                    <div class="panel-heading">My questions </div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for question in questionList %}
+                                <li class="quiz_li"><a href="{{ path("editquestion",{"quiz_id" : quiz.id, "question_id" : question.id}) }}">{{ question.questionText }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <a href=" {{ path("editsection",{"quiz_id" : quiz.id}) }} " class="btn btn-default">New section</a>
+                        <a href=" {{ path("editquestion",{"quiz_id": quiz.id}) }}" class="btn btn-default pull-right">New question</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel">
+                    <div class="panel-heading"> New question </div>
+                    <div class="panel-body">
+
+                        {{ form_start(form) }}
+                        {{ form_row(form.question) }}
+                        {{ form_label(form.answers) }}
+
+                        <ul id="answer-list" data-prototype="{{ form_widget(form.answers.vars.prototype)|e }}">
+
+
+                            {% for ans in form.answers %}
+                                <li>
+
+                                    {{ form_errors(ans) }}
+                                    {{ form_widget(ans) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        {{ form_end(form) }}
+                        <button type="button" class="btn btn-primary" id="add-another-answer">Add another answer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // keep track of how many answer fields have been rendered
+
+        var answerCount = '{{ form.answers|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-another-answer').on("click",function(e){
+                e.preventDefault();
+                addAnswer();
+            });
+
+            if(answerCount == 0)
+            {
+                addAnswer();
+            }
+            jQuery(document).on("click",".close-button",function(e)
+            {
+
+                alert("asdf");
+                jQuery(this).parent().remove();
+            })
+
+        });
+
+        function addAnswer()
+        {
+
+            var answerList = jQuery('#answer-list');
+
+            // grab the prototype template
+            var newWidget = answerList.attr('data-prototype');
+            // replace the "__name__" used in the id and name of the prototype
+            newWidget = newWidget.replace(/__name__label__/g, "Answer "+parseInt((answerCount+1)));
+            newWidget = newWidget.replace(/__name__/g, answerCount);
+            answerCount++;
+            // create a new list element and add it to the list
+            var newLi = jQuery('<li></li>').html(newWidget);
+
+            newLi.hide().appendTo(answerList).fadeIn(400);
+        }
+
+    </script>
+
+{% endblock %}
+
+

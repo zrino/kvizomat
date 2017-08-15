@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+            <h3 class="section_text">
+                {{ section.sectionText }}
+            </h3>
+
+    {{ form_start(form) }}
+        <div class="question_div">
+            <div class="question_text">
+               {{ question }}
+            </div>
+            <div class="answers_div">
+                <div class="answer_row">
+                   <ul id="answer-list">
+
+
+                    {% for ans in form.answers %}
+                        <li>
+                            {{ form_widget(ans) }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

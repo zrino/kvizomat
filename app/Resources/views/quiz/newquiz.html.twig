@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel">
+                    <div class="panel-heading">My quizzes </div>
+                    <div class="panel-body">
+
+                        <ul>
+                        {% for quiz in quizList %}
+                            <li class="quiz_li"><a href="{{ path("addquiz",{"quiz_id" : quiz.id}) }}">{{ quiz.title }}</a></li>
+                        {% endfor %}
+                        </ul>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel">
+                    <div class="panel-heading"> New quiz  </div>
+                    <div class="panel-body">
+                        {% for flashMessage in app.session.flashbag.get('notice') %}
+
+                            <div class="alert alert-success">
+                                {{ flashMessage }}
+                                <span class="close"></span>
+                            </div>
+
+                        {% endfor %}
+                        {% form_theme form "bootstrap_3_layout.html.twig" %}
+
+                        {{ form_start(form) }}
+                        {{ form_row(form.title) }}
+
+
+                        {{ form_end(form) }}
+                        {%   if quiz.id is defined and quiz.id is not empty %}
+                        <a  href="{{ path("editsection", {"quiz_id" : quiz.id})  }}"> Sections </a>
+                        <a class="pull_right" href="{{ path("editquestion", {"quiz_id" : quiz.id})  }}"> Add questions </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

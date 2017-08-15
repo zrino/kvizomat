@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.body
+{
+    color:white;
+    position: relative;
+
+}
+
+.panel
+{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)!important;
+}
+
+.navbar
+{
+    background-color: #223f3b;
+    color:white;
+
+}
+
+.navbar  a
+{
+    color:white;
+    -webkit-transition: background-color 1.25s, color 1.25s; /* For Safari 3.1 to 6.0 */
+    transition: background-color 1.25s, color 1.25s;
+}
+
+.navbar li a:hover
+{
+    color:black;
+}
+
+
+.sidebar
+{
+//background-color:#90EE90;
+
+}
+
+
+
+.mainArea
+{
+
+
+    height:600px;
+}
+.add-btn
+{
+
+    float:right;
+    clear:both;
+}
+
+.submit-btn
+{
+    clear:both;
+    margin-top:50px;
+    text-align:center;
+}
+.odg-template
+{
+    display:none;
+}
+
+.hero
+{
+    height:100vh;
+    background:url('http://localhost/matura/includes/img/landing.jpg') no-repeat center center;
+    background-size:cover;
+}
+.hero a
+{
+    display:block;
+    width:20%;
+    margin:auto;
+    text-decoration:none;
+    padding:10px;
+    padding-bottom:7px;
+    border:2px solid white;
+    -webkit-transition: background-color 1.2s, border 1.2s; /* Safari */
+    transition: background-color 1.2s,border 1.2s;
+}
+.hero a:hover
+{
+
+    text-decoration:none;
+    background-color:black;
+    border:2px solid white;
+}
+
+
+.hero .intro {
+    padding: 3rem;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); }
+
+.hero .intro-link {
+    margin:auto;
+    color: #fff;
+    font-size: 35px;
+    line-height: 1.5em;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    text-align: center; }
+.hero p {
+    margin-top:10px;
+    color: #fff;
+    line-height: 1.75em;
+    font-weight: 200;
+    text-align: center;
+    margin-bottom: 2rem; }
+@media only screen and (min-width: 40.063em) {
+    .hero h1 {
+        padding-top: 4.5rem;
+        text-align: right;
+        font-size: 2.5rem; }
+    .hero p {
+        text-align: right; } }
+.panel-heading
+{
+    background-color:#223f3b!important;
+    color:white!important;
+
+}
+.panel .form-control
+{
+    border-color:#223f3b;
+
+}
+.panel{
+    border-color:#223f3b!important;
+}
+.pull-right{
+    float:right;
+}
+
+.btn-primary
+{
+    background-color: #223f3b!important;
+    color:white;
+}
+
+.btn-default
+{
+    background-color: #223f3b!important;
+    color:white!important;
+}
+
+.btn-default:hover
+{
+    background-color: darkorange;
+    color:white;
+}
+footer
+{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align:center;
+    background-color: #223f3b;
+    color:white;
+    padding:4px;
+}
+.list-unstyled a
+{
+    color:white;
+}
+.tab-content
+{
+    margin-top:20px;
+}
+
+li
+{
+    list-style:none;
+}
+.alert
+{
+    position: relative;
+
+}
+.close:before {
+
+    content: 'x';
+}
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding:0 5px 5px 5px;
+    cursor: pointer;
+}
+.quiz_li
+{
+    /*border: 1px solid #0f0f0f;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    border:none;
+    border-left:none;
+    border-right:none;
+    margin:0 0 12px 0;
+    padding:5px;
+    background-color: #f0ecef;
+    -webkit-transition: background-color 1s, border 1s; /* Safari */
+    transition: background-color 1s,border 1s;
+}
+
+.quiz_li:hover
+{
+    color:black;
+    background-color:white;
+}
+
+.quiz_li a
+{
+    color:#223f3b;
+
+}
+
+.quiz_li a:hover
+{
+    text-decoration:none;
+}
+
+.quiz_li.active
+{
+    background-color: #aaaaaa;
+}
+
+.pull_right
+{
+    float:right;
+}
+.closeable
+{
+    position:relative;
+}
+.close-button
+{
+    position: absolute;
+    top: 3px;
+    right: 20px;
+    width:16px;
+    height:16px;
+    background-image:url("../img/x-button.svg");
+    background-repeat:no-repeat;
+    z-index:999;
+}
+
+.section_text
+{
+    border-radius:15px;
+    border: 3px solid black;
+    padding:15px;
+    text-align:justify;
+}

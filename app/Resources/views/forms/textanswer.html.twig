@@ -1,0 +1,14 @@
+{% block textanswer_widget %}
+
+        <div class="row">
+            <div class="col-xs-10">
+                {{ form_widget(form.answer) }}
+            </div>
+            <div class="col-xs-2">
+                {{ form_label(form.correctAns) }}
+                {{ form_widget(form.correctAns) }}
+
+            </div>
+        </div>
+
+{% endblock %}
