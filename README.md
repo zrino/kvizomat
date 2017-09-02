@@ -2,6 +2,7 @@ kvizomat
 ==============
 
 Steps to run project:
+
 *	clone repository locally
 *   make sure you have php and composer installed
 *	run "composer install" inside projects root
