@@ -1,17 +1,17 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use AppBundle\Form\TextQuestionType;
-use AppBundle\Form\QuizType;
-use AppBundle\Form\SectionType;
-use AppBundle\Entity\Quiz;
-use AppBundle\Entity\Question;
-use AppBundle\Entity\Section;
+use CoreBundle\Form\TextQuestionType;
+use CoreBundle\Form\QuizType;
+use CoreBundle\Form\SectionType;
+use CoreBundle\Entity\Quiz;
+use CoreBundle\Entity\Question;
+use CoreBundle\Entity\Section;
 
 class QuizController extends Controller
 {
@@ -22,7 +22,7 @@ class QuizController extends Controller
     public function editquestionAction(Request $request,$quiz_id=0,$question_id=0)
     {
         try{
-            $quiz = $this->getDoctrine()->getRepository('AppBundle:Quiz')->findOneBy(array('id' => $quiz_id));
+            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
             if(!$quiz)
             {
                 throw $this->createNotFoundException('No quiz found for id '.$quiz_id);
@@ -31,16 +31,16 @@ class QuizController extends Controller
             $questionEnt = new Question();
             if($question_id!=0)
             {
-                $questionEnt = $this->getDoctrine()->getRepository('AppBundle:Question')->findOneBy(array('id' => $question_id));
+                $questionEnt = $this->getDoctrine()->getRepository('CoreBundle:Question')->findOneBy(array('id' => $question_id));
             }
 
             if($quiz->getUser() == $this->getUser() && ($question_id==0 || ($questionEnt->getSection()->getQuiz()->getId() == $quiz->getId())))
             {
                 #sections
-                $sections = $this->getDoctrine()->getRepository('AppBundle:Section')->findBy(array('id' => $quiz->getSections()->toArray()));
+                $sections = $this->getDoctrine()->getRepository('CoreBundle:Section')->findBy(array('id' => $quiz->getSections()->toArray()));
 
                 #questions
-                $questionList = $this->getDoctrine()->getManager()->getRepository('AppBundle:Question')->findBy(array('section' => $sections));
+                $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sections));
 
                 $question = $this->createForm(TextQuestionType::class,$questionEnt,array(
                     'created_sections' => $sections,
@@ -102,7 +102,7 @@ class QuizController extends Controller
         $quiz = new Quiz();
         if($quiz_id!=0)
         {
-            $quiz = $this->getDoctrine()->getRepository('AppBundle:Quiz')->findOneBy(array('id' => $quiz_id));
+            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
         }
         $form = $this->createForm(QuizType::class,$quiz);
 
@@ -145,7 +145,7 @@ class QuizController extends Controller
                 );
             }
         }
-        $quizList = $this->getDoctrine()->getManager()->getRepository('AppBundle:Quiz')->findBy(array('user' => $this->getUser()));
+        $quizList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Quiz')->findBy(array('user' => $this->getUser()));
 
 
         return $this->render('quiz/newquiz.html.twig',array('form' => $form->createView(),
@@ -160,7 +160,7 @@ class QuizController extends Controller
     public function editsectionAction(Request $request,$quiz_id,$section_id = 0)
     {
         try{
-            $quiz = $this->getDoctrine()->getRepository('AppBundle:Quiz')->findOneBy(array('id' => $quiz_id));
+            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
             if(!$quiz)
             {
                 throw $this->createNotFoundException('No quiz found for id '.$quiz_id);
@@ -169,7 +169,7 @@ class QuizController extends Controller
             $sectionEnt = new Section();
             if($section_id!=0)
             {
-                $sectionEnt = $this->getDoctrine()->getRepository('AppBundle:Section')->findOneBy(array('id' => $section_id));
+                $sectionEnt = $this->getDoctrine()->getRepository('CoreBundle:Section')->findOneBy(array('id' => $section_id));
             }
 
 
@@ -181,10 +181,10 @@ class QuizController extends Controller
                 $section->handleRequest($request);
 
                 #questions
-                $questionList = $this->getDoctrine()->getManager()->getRepository('AppBundle:Question')->findBy(array('section' => $sectionEnt->getId()));
+                $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sectionEnt->getId()));
 
 
-                $sectionList =$this->getDoctrine()->getManager()->getRepository('AppBundle:Section')->findBy(array('quiz' => $quiz->getId()));
+                $sectionList =$this->getDoctrine()->getManager()->getRepository('CoreBundle:Section')->findBy(array('quiz' => $quiz->getId()));
 
 
                 if ($section->isSubmitted() && $section->isValid()) {

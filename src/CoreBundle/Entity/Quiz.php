@@ -1,6 +1,6 @@
 <?php
 
-    namespace AppBundle\Entity;
+    namespace CoreBundle\Entity;
 
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\ORM\Mapping as ORM;
@@ -76,11 +76,11 @@
     /**
      * Add section
      *
-     * @param \AppBundle\Entity\Section $section
+     * @param \CoreBundle\Entity\Section $section
      *
      * @return Quiz
      */
-    public function addSection(\AppBundle\Entity\Section $section)
+    public function addSection(\CoreBundle\Entity\Section $section)
     {
         $this->sections->add($section);
 
@@ -90,11 +90,11 @@
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param \CoreBundle\Entity\User $user
      *
      * @return Quiz
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\CoreBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -104,7 +104,7 @@
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return \CoreBundle\Entity\User
      */
     public function getUser()
     {
@@ -115,9 +115,9 @@
     /**
      * Remove section
      *
-     * @param \AppBundle\Entity\Section $section
+     * @param \CoreBundle\Entity\Section $section
      */
-    public function removeSection(\AppBundle\Entity\Section $section)
+    public function removeSection(\CoreBundle\Entity\Section $section)
     {
         $this->sections->removeElement($section);
     }

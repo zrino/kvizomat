@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Repository;
+namespace CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

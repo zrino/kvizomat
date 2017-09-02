@@ -1,6 +1,6 @@
 <?php
 
-    namespace AppBundle\Entity;
+    namespace CoreBundle\Entity;
 
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\ORM\Mapping as ORM;
@@ -115,11 +115,11 @@
     /**
      * Add answer
      *
-     * @param \AppBundle\Entity\TextAnswer $answer
+     * @param \CoreBundle\Entity\TextAnswer $answer
      *
      * @return Question
      */
-    public function addAnswer(\AppBundle\Entity\TextAnswer $answer)
+    public function addAnswer(\CoreBundle\Entity\TextAnswer $answer)
     {
         $answer->setQuestion($this);
 
@@ -131,9 +131,9 @@
     /**
      * Remove answer
      *
-     * @param \AppBundle\Entity\TextAnswer $answer
+     * @param \CoreBundle\Entity\TextAnswer $answer
      */
-    public function removeAnswer(\AppBundle\Entity\TextAnswer $answer)
+    public function removeAnswer(\CoreBundle\Entity\TextAnswer $answer)
     {
         $this->answers->removeElement($answer);
     }
@@ -151,11 +151,11 @@
     /**
      * Set quiz
      *
-     * @param \AppBundle\Entity\Quiz $quiz
+     * @param \CoreBundle\Entity\Quiz $quiz
      *
      * @return Question
      */
-    public function setQuiz(\AppBundle\Entity\Quiz $quiz = null)
+    public function setQuiz(\CoreBundle\Entity\Quiz $quiz = null)
     {
         $this->quiz = $quiz;
 
@@ -165,7 +165,7 @@
     /**
      * Get quiz
      *
-     * @return \AppBundle\Entity\Quiz
+     * @return \CoreBundle\Entity\Quiz
      */
     public function getQuiz()
     {
@@ -175,11 +175,11 @@
     /**
      * Set section
      *
-     * @param \AppBundle\Entity\Section $section
+     * @param \CoreBundle\Entity\Section $section
      *
      * @return Question
      */
-    public function setSection(\AppBundle\Entity\Section $section = null)
+    public function setSection(\CoreBundle\Entity\Section $section = null)
     {
         $this->section = $section;
 
@@ -189,7 +189,7 @@
     /**
      * Get section
      *
-     * @return \AppBundle\Entity\Section
+     * @return \CoreBundle\Entity\Section
      */
     public function getSection()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -109,11 +109,11 @@ class Section
     /**
      * Add question
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param \CoreBundle\Entity\Question $question
      *
      * @return Section
      */
-    public function addQuestion(\AppBundle\Entity\Question $question)
+    public function addQuestion(\CoreBundle\Entity\Question $question)
     {
         $this->questions[] = $question;
 
@@ -123,9 +123,9 @@ class Section
     /**
      * Remove question
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param \CoreBundle\Entity\Question $question
      */
-    public function removeQuestion(\AppBundle\Entity\Question $question)
+    public function removeQuestion(\CoreBundle\Entity\Question $question)
     {
         $this->questions->removeElement($question);
     }
@@ -143,11 +143,11 @@ class Section
     /**
      * Set quiz
      *
-     * @param \AppBundle\Entity\Quiz $quiz
+     * @param \CoreBundle\Entity\Quiz $quiz
      *
      * @return Section
      */
-    public function setQuiz(\AppBundle\Entity\Quiz $quiz = null)
+    public function setQuiz(\CoreBundle\Entity\Quiz $quiz = null)
     {
         $this->quiz = $quiz;
 
@@ -157,7 +157,7 @@ class Section
     /**
      * Get quiz
      *
-     * @return \AppBundle\Entity\Quiz
+     * @return \CoreBundle\Entity\Quiz
      */
     public function getQuiz()
     {

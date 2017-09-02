@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace CoreBundle\Entity;
 
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\ORM\Mapping as ORM;
@@ -68,11 +68,11 @@ namespace AppBundle\Entity;
     /**
      * Set question
      *
-     * @param \AppBundle\Entity\Question $question
+     * @param \CoreBundle\Entity\Question $question
      *
      * @return TextAnswer
      */
-    public function setQuestion(\AppBundle\Entity\Question $question = null)
+    public function setQuestion(\CoreBundle\Entity\Question $question = null)
     {
         $this->question = $question;
 
@@ -82,7 +82,7 @@ namespace AppBundle\Entity;
     /**
      * Get question
      *
-     * @return \AppBundle\Entity\Question
+     * @return \CoreBundle\Entity\Question
      */
     public function getQuestion()
     {

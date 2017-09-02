@@ -1,11 +1,11 @@
 <?php
-namespace AppBundle\Form;
+namespace CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use AppBundle\Entity\TextAnswer;
+use CoreBundle\Entity\TextAnswer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TextAnswerType extends AbstractType

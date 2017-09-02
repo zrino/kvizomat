@@ -1,11 +1,11 @@
 <?php
-namespace AppBundle\Controller;
+namespace CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-    class SecurityController extends Controller
+    class LoginController extends Controller
     {
         /**
          * @Route("/login", name="login")

@@ -1,18 +1,18 @@
 <?php
-namespace AppBundle\Form;
+namespace CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use AppBundle\Form\TextAnswerType;
+use CoreBundle\Form\TextAnswerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Question;
+use CoreBundle\Entity\Section;
 use Doctrine\ORM\EntityRepository;
 
-class FrontendQuestionType extends AbstractType
+class SectionType extends AbstractType
 {
 
 
@@ -25,16 +25,21 @@ class FrontendQuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder,array $options)
     {
         $builder
-            ->add('answers',CollectionType::class,array("entry_type" => CheckboxType::class,
-                "block_name" => "answers",
-                "by_reference" => false,
-                "label" => "Answers"))
-
+            ->add('name',TextType::class)
+            ->add('section_text',TextareaType::class,array(
+                'label' => 'Text (optional)',
+                'required' => false,
+            ))
             ->add('save', SubmitType::class)
         ;
 
     }
-
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => Section::class
+        ));
+    }
 
 
 

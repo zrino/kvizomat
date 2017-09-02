@@ -1,12 +1,12 @@
 <?php
-namespace AppBundle\Form;
+namespace CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Quiz;
+use CoreBundle\Entity\Quiz;
 
 class QuizUserForm extends AbstractType
 {

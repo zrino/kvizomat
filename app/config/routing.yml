@@ -1,6 +1,6 @@
 app:
-    resource: '@AppBundle/Controller/'
+    resource: '@CoreBundle/Controller/'
     type: annotation
 homepage:
     path: /
-    defaults: { _controller: AppBundle:Quiz:addquiz}
+    defaults: { _controller: CoreBundle:Quiz:addquiz}

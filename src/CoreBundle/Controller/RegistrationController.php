@@ -1,10 +1,10 @@
 <?php
 
 
-namespace AppBundle\Controller;
+namespace CoreBundle\Controller;
 
-use AppBundle\Form\UserType;
-use AppBundle\Entity\User;
+use CoreBundle\Form\UserType;
+use CoreBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
