@@ -99,6 +99,7 @@ class QuizController extends Controller
      */
     public function addquizAction(Request $request,$quiz_id=0)
     {
+        
         $quiz = new Quiz();
         if($quiz_id!=0)
         {

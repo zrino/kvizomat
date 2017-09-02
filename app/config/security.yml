@@ -37,4 +37,4 @@ security:
             #form_login: ~
 
     access_control:
-        - { path: ^/quiz, roles: ROLE_USER }
+       #  - { path: ^/quiz, roles: ROLE_USER }

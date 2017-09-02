@@ -4,9 +4,5 @@ parameters:
     #parameter_name: value
 
 services:
-    app.webservice_user_provider:
-        class: AppBundle\Security\User\UserServiceProvider
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+
 
