@@ -1,3 +1,13 @@
 Specifikacija:
 
-1. kvizomat je projekt
+there are 2 types of users:
+    1. non authenticated, visitors, guests
+    2. authenticated
+
+
+only authenticated users can create new quizzes
+
+all users can participate in regular quizzes
+
+only authenticated users can participate in exam quizzes
+

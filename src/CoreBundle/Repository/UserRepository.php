@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Repository;
+namespace CoreBundle\Repository;
 
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Doctrine\ORM\EntityRepository;
