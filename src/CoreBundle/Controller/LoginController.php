@@ -1,31 +1,29 @@
 <?php
-
 namespace CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class LoginController extends Controller
 {
-
     /**
-     * @Route("/quiz/addquestion/{page}",name="add_question", requirements={"page": "\d+"})
+     * @Route("/login", name="login")
      */
-    public function indexAction()
+    public function loginAction(Request $request)
     {
+        $authenticationUtils = $this->get('security.authentication_utils');
 
-        $form = new LoginForm();
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        return $this->render('default/login.html.twig', array('form' => $form->createView()));
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-
+        return $this->render('security/login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
     }
 }
-
 ?>
