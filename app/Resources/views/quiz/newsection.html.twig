@@ -10,12 +10,11 @@
 
                         <ul>
                             {% for section in sectionList %}
-                                <li class="quiz_li {% if section.id == currentSection.id %} active {% endif  %}"><a href="{{ path("editsection",{"quiz_id" : quiz.id,"section_id" : section.id}) }}">{{ section.name  }}</a></li>
+                                <li class="quiz_li {% if section.id == currentSection.id %} active {% endif  %}"><a href="{{ path("section",{"quiz_slug" : quiz.slug,"section_id" : section.id}) }}">{{ section.name  }}</a></li>
                             {% endfor %}
                         </ul>
                         <hr>
-
-                                <a href=" {{ path("editsection",{"quiz_id" : quiz.id}) }} " class="btn btn-default">New section</a>
+                                <a href=" {{ path("section",{"quiz_slug" : quiz.slug}) }} " class="btn btn-default">New section</a>
                                 <a href=" {{ path("editquestion",{"quiz_id": quiz.id}) }}" class="btn btn-default pull-right">New question</a>
 
                     </div>

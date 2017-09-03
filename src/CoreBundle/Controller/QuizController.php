@@ -48,8 +48,6 @@ class QuizController extends Controller
 
                 $question->handleRequest($request);
 
-
-
                 if ($question->isSubmitted() && $question->isValid()) {
                     try{
 
@@ -66,7 +64,7 @@ class QuizController extends Controller
 
                         return $this->redirectToRoute('editquestion', array('quiz_id' => $quiz_id,"question_id" => $questionEnt->getId()));
                     }
-                    catch (Exception $e)
+                    catch (\Exception $e)
                     {
                         $this->get('session')->getFlashBag()->add(
                             'warning',
@@ -75,8 +73,6 @@ class QuizController extends Controller
                     }
 
                 }
-
-
 
               return $this->render('quiz/newquestion.html.twig', array('form' => $question->createView(), "questionList" => $questionList,"quiz" => $quiz));
 
@@ -87,7 +83,7 @@ class QuizController extends Controller
                 throw $this->createAccessDeniedException('No quiz found for id '.$quiz_id);
             }
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
             return 1;
         }
@@ -95,25 +91,21 @@ class QuizController extends Controller
     }
 
     /**
-     * @Route("/quiz/addquiz/{quiz_id}",name="addquiz", requirements={"quiz_id": "\d+"})
+     * @Route("/quiz/{quiz_id}", name="quiz", requirements={"quiz_id": "\d+"}, defaults={"quiz_id" = 0})
      */
-    public function addquizAction(Request $request,$quiz_id=0)
+    public function quizAction(Request $request,$quiz_id=0)
     {
-
         $quiz = new Quiz();
-        if($quiz_id!=0)
+        if((int)$quiz_id!=0)
         {
             $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
         }
         $form = $this->createForm(QuizType::class,$quiz);
-
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             try{
-
-
                 $quiz->setUser($this->getUser());
                 $em = $this->getDoctrine()->getManager();
 
@@ -126,10 +118,7 @@ class QuizController extends Controller
                 $section->setName("Section 1");
 
                 $em->persist($section);
-
                 $em->flush();
-
-
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
@@ -138,7 +127,7 @@ class QuizController extends Controller
 
                 return $this->redirect($request->getUri());
             }
-            catch (Exception $e)
+            catch (\Exception $e)
             {
                 $this->get('session')->getFlashBag()->add(
                     'warning',
@@ -156,15 +145,15 @@ class QuizController extends Controller
 
 
     /**
-     * @Route("/quiz/{quiz_id}/section/{section_id}",name="editsection", requirements={"quiz_id": "\d+", "section_id": "\d+"})
+     * @Route("/{quiz_slug}/section/{section_id}", name="section", requirements={"section_id": "\d+"}, defaults={"section_id" = 0})
      */
-    public function editsectionAction(Request $request,$quiz_id,$section_id = 0)
+    public function sectionAction(Request $request, $quiz_slug, $section_id = 0)
     {
         try{
-            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
+            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('slug' => $quiz_slug));
             if(!$quiz)
             {
-                throw $this->createNotFoundException('No quiz found for id '.$quiz_id);
+                throw $this->createNotFoundException('No quiz found for slug '.$quiz_slug);
             }
 
             $sectionEnt = new Section();
@@ -177,16 +166,13 @@ class QuizController extends Controller
 
             if($quiz->getUser() == $this->getUser() && ($section_id == 0 || ($sectionEnt->getQuiz()->getId() == $quiz->getId())))
             {
-
-                $section = $this->createForm(SectionType::class,$sectionEnt);
+                $section = $this->createForm(SectionType::class, $sectionEnt);
                 $section->handleRequest($request);
 
                 #questions
                 $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sectionEnt->getId()));
 
-
                 $sectionList =$this->getDoctrine()->getManager()->getRepository('CoreBundle:Section')->findBy(array('quiz' => $quiz->getId()));
-
 
                 if ($section->isSubmitted() && $section->isValid()) {
                     try{
@@ -201,10 +187,10 @@ class QuizController extends Controller
                             'notice',
                             'Section updated!'
                         );
-                        return $this->redirectToRoute('editsection', array('quiz_id' => $quiz_id,"section_id" => $sectionEnt->getId()));
+                        return $this->redirectToRoute('section', array('quiz_slug' => $quiz_slug,"section_id" => $sectionEnt->getId()));
 
                     }
-                    catch (Exception $e)
+                    catch (\Exception $e)
                     {
                         $this->get('session')->getFlashBag()->add(
                             'warning',
@@ -224,9 +210,9 @@ class QuizController extends Controller
                 throw $this->createAccessDeniedException('Access denied for section '.$section_id);
             }
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
-            return 1;
+            return $e->getMessage();
         }
     }
 }

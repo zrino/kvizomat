@@ -4,15 +4,19 @@
 
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\ORM\Mapping as ORM;
-
+    use CoreBundle\Traits\Sluggable;
+    use CoreBundle\Traits\Timestampable;
+    use Symfony\Component\Validator\Constraints as Assert;
     /**
      * @ORM\Entity
      * @ORM\Table(name="quiz",uniqueConstraints={@ORM\UniqueConstraint(name="quiz_unique", columns={"id_user", "title"})})
+     * @ORM\HasLifecycleCallbacks()
      */
 
     class Quiz
     {
-
+        use Sluggable;
+        use Timestampable;
         /**
          * @ORM\Id
          * @ORM\Column(type="integer")
@@ -20,7 +24,8 @@
          */
         private $id;
 
-        /** @ORM\Column(type="string", name="title") */
+        /** @ORM\Column(type="string", name="title")
+         * @Assert\NotBlank() */
         private $title;
 
         /**
@@ -37,98 +42,107 @@
         public function __construct()
         {
             $this->sections = new ArrayCollection();
+            $this->generateCreatedAt();
         }
-    
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Quiz
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
+        /**
+         * Get id
+         *
+         * @return integer
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
 
-        return $this;
-    }
+        /**
+         * Set title
+         *
+         * @param string $title
+         *
+         * @return Quiz
+         */
+        public function setTitle($title)
+        {
+            $this->title = $title;
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
+            return $this;
+        }
 
-    /**
-     * Add section
-     *
-     * @param \CoreBundle\Entity\Section $section
-     *
-     * @return Quiz
-     */
-    public function addSection(\CoreBundle\Entity\Section $section)
-    {
-        $this->sections->add($section);
+        /**
+         * Get title
+         *
+         * @return string
+         */
+        public function getTitle()
+        {
+            return $this->title;
+        }
 
-        return $this;
-    }
+        /**
+         * Add section
+         *
+         * @param \CoreBundle\Entity\Section $section
+         *
+         * @return Quiz
+         */
+        public function addSection(Section $section)
+        {
+            $this->sections->add($section);
 
-    /**
-     * Set user
-     *
-     * @param \CoreBundle\Entity\User $user
-     *
-     * @return Quiz
-     */
-    public function setUser(\CoreBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
+            return $this;
+        }
 
-        return $this;
-    }
+        /**
+         * Set user
+         *
+         * @param \CoreBundle\Entity\User $user
+         *
+         * @return Quiz
+         */
+        public function setUser(User $user = null)
+        {
+            $this->user = $user;
 
-    /**
-     * Get user
-     *
-     * @return \CoreBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+            return $this;
+        }
 
+        /**
+         * Get user
+         *
+         * @return \CoreBundle\Entity\User
+         */
+        public function getUser()
+        {
+            return $this->user;
+        }
 
-    /**
-     * Remove section
-     *
-     * @param \CoreBundle\Entity\Section $section
-     */
-    public function removeSection(\CoreBundle\Entity\Section $section)
-    {
-        $this->sections->removeElement($section);
-    }
+        /**
+         * Remove section
+         *
+         * @param \CoreBundle\Entity\Section $section
+         */
+        public function removeSection(Section $section)
+        {
+            $this->sections->removeElement($section);
+        }
 
-    /**
-     * Get sections
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSections()
-    {
-        return $this->sections;
-    }
+        /**
+         * Get sections
+         *
+         * @return \Doctrine\Common\Collections\Collection
+         */
+        public function getSections()
+        {
+            return $this->sections;
+        }
+
+        /**
+         * @ORM\PrePersist
+         */
+        public function generateSlug()
+        {
+            $this->slug = strtolower(implode("-", explode(" ", $this->title)));
+
+        }
 }

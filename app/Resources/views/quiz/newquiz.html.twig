@@ -10,7 +10,7 @@
 
                         <ul>
                         {% for quiz in quizList %}
-                            <li class="quiz_li"><a href="{{ path("addquiz",{"quiz_id" : quiz.id}) }}">{{ quiz.title }}</a></li>
+                            <li class="quiz_li"><a href="{{ path("quiz",{"quiz_id" : quiz.id}) }}">{{ quiz.title }}</a></li>
                         {% endfor %}
                         </ul>
 
@@ -38,7 +38,7 @@
 
                         {{ form_end(form) }}
                         {%   if quiz.id is defined and quiz.id is not empty %}
-                        <a  href="{{ path("editsection", {"quiz_id" : quiz.id})  }}"> Sections </a>
+                        <a  href="{{ path("section", {"quiz_slug" : quiz.slug})  }}"> Sections </a>
                         <a class="pull_right" href="{{ path("editquestion", {"quiz_id" : quiz.id})  }}"> Add questions </a>
                         {% endif %}
                     </div>

@@ -13,8 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class QuizType extends AbstractType
 {
 
-
-
     public function __construct()
     {
 
@@ -24,8 +22,8 @@ class QuizType extends AbstractType
     {
         $builder
             ->add('title',TextType::class)
-            ->add('save', SubmitType::class)
-        ;
+            ->add('save', SubmitType::class);
+
 
     }
     public function configureOptions(OptionsResolver $resolver)
