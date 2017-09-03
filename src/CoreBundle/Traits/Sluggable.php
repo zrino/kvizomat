@@ -5,7 +5,7 @@ namespace CoreBundle\Traits;
 trait Sluggable {
 
     /**
-     * @ORM\Column(type="string", name="slug", nullable=true)
+     * @ORM\Column(type="string", name="slug", nullable=true, unique=true)
      */
     private $slug;
 

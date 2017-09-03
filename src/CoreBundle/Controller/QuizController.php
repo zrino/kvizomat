@@ -17,80 +17,6 @@ class QuizController extends Controller
 {
 
     /**
-     * @Route("/quiz/editquestion/{quiz_id}/question/{question_id}",name="editquestion", requirements={"quiz_id": "\d+","question_id": "\d+"})
-     */
-    public function editquestionAction(Request $request,$quiz_id=0,$question_id=0)
-    {
-        try{
-            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
-            if(!$quiz)
-            {
-                throw $this->createNotFoundException('No quiz found for id '.$quiz_id);
-            }
-
-            $questionEnt = new Question();
-            if($question_id!=0)
-            {
-                $questionEnt = $this->getDoctrine()->getRepository('CoreBundle:Question')->findOneBy(array('id' => $question_id));
-            }
-
-            if($quiz->getUser() == $this->getUser() && ($question_id==0 || ($questionEnt->getSection()->getQuiz()->getId() == $quiz->getId())))
-            {
-                #sections
-                $sections = $this->getDoctrine()->getRepository('CoreBundle:Section')->findBy(array('id' => $quiz->getSections()->toArray()));
-
-                #questions
-                $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sections));
-
-                $question = $this->createForm(TextQuestionType::class,$questionEnt,array(
-                    'created_sections' => $sections,
-                    ));
-
-                $question->handleRequest($request);
-
-                if ($question->isSubmitted() && $question->isValid()) {
-                    try{
-
-                        $em = $this->getDoctrine()->getManager();
-                        $questionEnt->setType(0);
-                        $questionEnt->setQuiz($quiz);
-                        $em->persist($questionEnt);
-                        $em->flush();
-
-                        $this->get('session')->getFlashBag()->add(
-                            'notice',
-                            'New question added!'
-                        );
-
-                        return $this->redirectToRoute('editquestion', array('quiz_id' => $quiz_id,"question_id" => $questionEnt->getId()));
-                    }
-                    catch (\Exception $e)
-                    {
-                        $this->get('session')->getFlashBag()->add(
-                            'warning',
-                            'There was an error trying to save your data!'
-                        );
-                    }
-
-                }
-
-              return $this->render('quiz/newquestion.html.twig', array('form' => $question->createView(), "questionList" => $questionList,"quiz" => $quiz));
-
-            }
-            else
-            {
-
-                throw $this->createAccessDeniedException('No quiz found for id '.$quiz_id);
-            }
-        }
-        catch(\Exception $e)
-        {
-            return 1;
-        }
-
-    }
-
-    /**
      * @Route("/quiz/{quiz_id}", name="quiz", requirements={"quiz_id": "\d+"}, defaults={"quiz_id" = 0})
      */
     public function quizAction(Request $request,$quiz_id=0)
@@ -214,6 +140,81 @@ class QuizController extends Controller
         {
             return $e->getMessage();
         }
+    }
+
+
+    /**
+     * @Route("/{quiz_slug}/question/{question_id}",name="question", requirements={"question_id": "\d+"}, defaults={"question_id" = 0})
+     */
+    public function questionAction(Request $request, $quiz_slug, $question_id=0)
+    {
+        try{
+            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('slug' => $quiz_slug));
+            if(!$quiz)
+            {
+                throw $this->createNotFoundException('No quiz found for slug ' . $quiz_slug);
+            }
+
+            $questionEnt = new Question();
+            if($question_id != 0)
+            {
+                $questionEnt = $this->getDoctrine()->getRepository('CoreBundle:Question')->findOneBy(array('id' => $question_id));
+            }
+
+            if($quiz->getUser() == $this->getUser() && ($question_id == 0 || ($questionEnt->getSection()->getQuiz()->getId() == $quiz->getId())))
+            {
+                #sections
+                $sections = $this->getDoctrine()->getRepository('CoreBundle:Section')->findBy(array('id' => $quiz->getSections()->toArray()));
+
+                #questions
+                $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sections));
+
+                $question = $this->createForm(TextQuestionType::class,$questionEnt,array(
+                    'created_sections' => $sections,
+                ));
+
+                $question->handleRequest($request);
+
+                if ($question->isSubmitted() && $question->isValid()) {
+                    try{
+
+                        $em = $this->getDoctrine()->getManager();
+                        $questionEnt->setType(0);
+                        $questionEnt->setQuiz($quiz);
+                        $em->persist($questionEnt);
+                        $em->flush();
+
+                        $this->get('session')->getFlashBag()->add(
+                            'notice',
+                            'New question added!'
+                        );
+
+                        return $this->redirectToRoute('question', array('quiz_slug' => $quiz_slug, "question_id" => $questionEnt->getId()));
+                    }
+                    catch (\Exception $e)
+                    {
+                        $this->get('session')->getFlashBag()->add(
+                            'warning',
+                            'There was an error trying to save your data!'
+                        );
+                    }
+
+                }
+
+                return $this->render('quiz/newquestion.html.twig', array('form' => $question->createView(), "questionList" => $questionList,"quiz" => $quiz));
+
+            }
+            else
+            {
+
+                throw $this->createAccessDeniedException('No quiz found for id ' . $quiz_slug);
+            }
+        }
+        catch(\Exception $e)
+        {
+            echo $e->getMessage();
+        }
+
     }
 }
 

@@ -19,4 +19,4 @@ Steps to run project:
 
 
 Dev notes:
- - When a commit is marked with "ENTITY CHANGED!", its necessary to run "bin/console doctrine:schema:update --force". If its throwing errors, it might be best to backup data from tables, drop whole database and run command again
+ - When a commit is marked with "ENTITY CHANGED!", its necessary to run "bin/console doctrine:schema:update --force". If there are errors, try to run "bin/console cache:clear" before running again. If its still throwing errors, it might be best to backup data from tables, drop whole database and run command again.
