@@ -83,6 +83,7 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
+        $this->plainPassword = null;
     }
 
     /** @see \Serializable::serialize() */
@@ -174,6 +175,8 @@ class User implements UserInterface, \Serializable
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
+
+        $this->password = null;
     }
     /**
      * Set isActive

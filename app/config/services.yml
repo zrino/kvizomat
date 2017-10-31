@@ -4,5 +4,12 @@ parameters:
     #parameter_name: value
 
 services:
+  core.doctrine.user_listener:
+    class: CoreBundle\Listeners\UserListener
+    autowire: true
+    tags:
+        - { name: doctrine.event_subscriber }
 
-
+  core.security.login_authenticator:
+    class: CoreBundle\Security\LoginAuthenticator
+    autowire: true

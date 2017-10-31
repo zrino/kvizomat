@@ -1,8 +1,10 @@
 <?php
 namespace CoreBundle\Controller;
 
+use CoreBundle\Form\LoginForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 class LoginController extends Controller
@@ -20,19 +22,22 @@ class LoginController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        $form = $this->createForm(LoginForm::class, [
+            'username' => $lastUsername
+        ]);
+
         return $this->render('security/login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
+            'form' => $form->createView(),
+            'error' => $error,
         ));
     }
-
 
     /**
      * @Route("/logout", name="logout")
      */
     public function logoutAction()
     {
-        
+        throw new Exception("Should be unreachable");
     }
 }
 ?>
