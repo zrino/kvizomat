@@ -1,14 +1,22 @@
 
 <header>
     <div class="navbar">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ path("homepage") }}">Matura</a>
+                <a class="navbar-brand" href="{{ path("homepage") }}">Homepage</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"> <a href="#"> Bananko </a></li>
                 <li> <a href="#"> About</a></li>
                 <li> <a href="#"> Dropdown</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                {% if is_granted('ROLE_USER') %}
+                    <li class=""><a href="{{ path("logout") }}">Logout</a></li>
+                {% else %}
+                    <li class=""><a href="{{ path("login") }}">Login</a></li>
+                    <li class=""><a href="{{ path("register") }}">Register</a> </li>
+                {% endif %}
             </ul>
         </div>
     </div>

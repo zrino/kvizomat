@@ -5,10 +5,30 @@ namespace CoreBundle\Traits;
 trait Timestampable {
 
     /**
-     * @ORM\Column(type="date", name="created_at")
-     * @Assert\NotNull()
+     * @ORM\Column(type="datetime", name="created_at")
      */
     private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime", name="updated_at")
+     */
+    private $updated_at;
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param mixed $updated_at
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
 
     /**
      * @return mixed
@@ -32,6 +52,7 @@ trait Timestampable {
     public function generateCreatedAt()
     {
        $this->created_at = new \DateTime();
+       $this->updated_at = new \DateTime();
     }
 }
 

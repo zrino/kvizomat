@@ -11,8 +11,8 @@ class Fixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
+        // create 5 users! Bam!
+        for ($i = 0; $i < 5; $i++) {
             $user = new User();
             $user->setUsername('user' . $i);
             $user->setEmail("test" . $i . "@email.com");
@@ -20,6 +20,11 @@ class Fixtures extends Fixture
             $user->setIsActive((bool) rand(0,1));
             $manager->persist($user);
         }
+        $zrino = new User();
+        $zrino->setUsername('zrino');
+        $zrino->setEmail("zrino.pernar@gmail.com");
+        $zrino->setPlainPassword("abc123");
+        $zrino->setIsActive(1);
 
         $manager->flush();
     }

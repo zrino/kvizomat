@@ -2,16 +2,24 @@
 
 namespace CoreBundle\Entity;
 
+use CoreBundle\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="CoreBundle\Repository\UserRepository")
+ * @UniqueEntity("email")
+ * @UniqueEntity("username")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, \Serializable
 {
+    use Timestampable;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -21,6 +29,11 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 25,
+     *      minMessage = "Your username must be at least {{ limit }} characters",
+     *      maxMessage = "Your username cannot be longer than {{ limit }} characters")
      */
     private $username;
 
@@ -40,8 +53,11 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *     min = 6,
+     *     max = 25,
+     *     minMessage = "Your password must be at least {{ limit }} characters long",
+     *     maxMessage = "Your password cannot be longer than {{ limit }} characters")
      */
     private $plainPassword;
 

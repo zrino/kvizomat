@@ -1,6 +1,6 @@
 <?php
 
-namespace CoreBundle\Controller\Account;
+namespace CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;

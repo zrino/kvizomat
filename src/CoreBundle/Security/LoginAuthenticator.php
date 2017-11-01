@@ -1,7 +1,7 @@
 <?php
 namespace CoreBundle\Security;
 
-use CoreBundle\Form\LoginForm;
+use CoreBundle\Form\UserLoginForm;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Core\Security;
 
 class LoginAuthenticator extends AbstractGuardAuthenticator
 {
@@ -37,8 +38,9 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
             return ;
         };
 
-        $form = $this->formFactory->create(LoginForm::class);
+        $form = $this->formFactory->create(UserLoginForm::class);
         $form->handleRequest($request);
+        if($form->isValid());
         $data = $form->getData();
 
         return $data;
@@ -61,12 +63,16 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        // TODO: Implement start() method.
+        $data = array(
+            'message' => 'Authentication Required'
+        );
+        return new RedirectResponse($this->router->generate("login"));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        // TODO: Implement onAuthenticationFailure() method.
+        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        return new RedirectResponse($this->router->generate("login"));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
