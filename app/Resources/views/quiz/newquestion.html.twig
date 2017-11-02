@@ -19,18 +19,22 @@
                         {% endblock %}
 
 {% block body %}
+
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <div class="panel">
                     <div class="panel-heading">My questions </div>
                     <div class="panel-body">
+                        {% for section in sectionList %}
+                            <p>{{ section.name }}</p>
                         <ul>
-                            {% for question in questionList %}
+                            {% for question in section.questions  %}
                                 <li class="quiz_li"><a href="{{ path("question",{"quiz_slug" : quiz.slug, "question_id" : question.id}) }}">{{ question.questionText }}</a></li>
                             {% endfor %}
                         </ul>
                         <hr>
+                        {% endfor %}
                         <a href=" {{ path("section",{"quiz_slug" : quiz.slug}) }} " class="btn btn-default">New section</a>
                         <a href=" {{ path("question",{"quiz_slug": quiz.slug}) }}" class="btn btn-default pull-right">New question</a>
 
@@ -47,11 +51,8 @@
                         {{ form_label(form.answers) }}
 
                         <ul id="answer-list" data-prototype="{{ form_widget(form.answers.vars.prototype)|e }}">
-
-
                             {% for ans in form.answers %}
                                 <li>
-
                                     {{ form_errors(ans) }}
                                     {{ form_widget(ans) }}
                                 </li>
@@ -83,8 +84,6 @@
             }
             jQuery(document).on("click",".close-button",function(e)
             {
-
-                alert("asdf");
                 jQuery(this).parent().remove();
             })
 
@@ -92,7 +91,6 @@
 
         function addAnswer()
         {
-
             var answerList = jQuery('#answer-list');
 
             // grab the prototype template

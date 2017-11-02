@@ -5,7 +5,7 @@
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\ORM\Mapping as ORM;
     /**
-     * @ORM\Entity
+     * @ORM\Entity(repositoryClass="CoreBundle\Repository\QuestionRepository")
      * @ORM\Table(name="quiz_questions",uniqueConstraints={@ORM\UniqueConstraint(name="question_unique", columns={"id_section", "question_text"})})
      */
     class Question

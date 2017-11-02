@@ -26,7 +26,7 @@ class QuizController extends Controller
         {
             $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
         }
-        $form = $this->createForm(QuizType::class,$quiz);
+        $form = $this->createForm(QuizType::class, $quiz);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -166,10 +166,7 @@ class QuizController extends Controller
                 #sections
                 $sections = $this->getDoctrine()->getRepository('CoreBundle:Section')->findBy(array('id' => $quiz->getSections()->toArray()));
 
-                #questions
-                $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sections));
-
-                $question = $this->createForm(TextQuestionType::class,$questionEnt,array(
+                $question = $this->createForm(TextQuestionType::class,$questionEnt, array(
                     'created_sections' => $sections,
                 ));
 
@@ -201,7 +198,8 @@ class QuizController extends Controller
 
                 }
 
-                return $this->render('quiz/newquestion.html.twig', array('form' => $question->createView(), "questionList" => $questionList,"quiz" => $quiz));
+                return $this->render('quiz/newquestion.html.twig', ['form' => $question->createView(), "quiz" => $quiz,
+                    "sectionList" => $sections]);
 
             }
             else
@@ -214,7 +212,6 @@ class QuizController extends Controller
         {
             echo $e->getMessage();
         }
-
     }
 }
 

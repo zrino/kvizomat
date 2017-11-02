@@ -7,7 +7,6 @@
                 <div class="panel">
                     <div class="panel-heading">My quizzes </div>
                     <div class="panel-body">
-
                         <ul>
                             {% for section in sectionList %}
                                 <li class="quiz_li {% if section.id == currentSection.id %} active {% endif  %}"><a href="{{ path("section",{"quiz_slug" : quiz.slug,"section_id" : section.id}) }}">{{ section.name  }}</a></li>

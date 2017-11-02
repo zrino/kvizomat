@@ -10,6 +10,7 @@
     /**
      * @ORM\Entity
      * @ORM\Table(name="quiz",uniqueConstraints={@ORM\UniqueConstraint(name="quiz_unique", columns={"id_user", "title"})})
+     *
      * @ORM\HasLifecycleCallbacks()
      */
 
