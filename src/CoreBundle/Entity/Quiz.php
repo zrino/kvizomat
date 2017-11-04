@@ -30,20 +30,19 @@
         private $title;
 
         /**
-         * @ORM\ManyToOne(targetEntity="User")
+         * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
          * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
          */
         private $user;
 
         /**
-         * @ORM\OneToMany(targetEntity="Section", mappedBy="quiz")
+         * @ORM\OneToMany(targetEntity="Section", mappedBy="quiz", cascade={"persist"})
          */
         private $sections;
 
         public function __construct()
         {
             $this->sections = new ArrayCollection();
-            $this->generateCreatedAt();
         }
 
         /**
@@ -89,6 +88,7 @@
          */
         public function addSection(Section $section)
         {
+            $section->setQuiz($this);
             $this->sections->add($section);
 
             return $this;

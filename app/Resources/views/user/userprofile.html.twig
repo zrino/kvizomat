@@ -1,0 +1,46 @@
+{% extends("base.html.twig") %}
+
+{% block title %}
+    My profile
+{% endblock %}
+
+{% block body %}
+    
+    {% for flashMessage in app.session.flashbag.get('changeProfileNotice') %}
+        <div class="alert alert-{{ notice(flashMessage[0]) }}">
+            {{ flashMessage[1] }}
+        <span class="close"></span>
+    </div>
+    {% endfor %}
+
+    <div class="container">
+        <form action="{{ path('profile') }}" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" class="form-control" name="_username" value="{{ username }}" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" class="form-control" name="_email" value="{{ email }}" />
+            </div>
+
+            <div class="form-group">
+                <label for="password"> New password:</label>
+                <input type="password" id="password" class="form-control" name="_new_password" />
+            </div>
+            <div class="form-group">
+                <label for="password2"> New password repeated:</label>
+                <input type="password" id="password2" class="form-control" name="_new_password_2" />
+            </div>
+
+            <div class="form-group">
+                <label for="password_old"> Old password:</label>
+                <input type="password" id="password_old" class="form-control" name="_old_password" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update my profile</button>
+        </form>
+    </div>
+
+{% endblock %}

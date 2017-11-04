@@ -25,7 +25,7 @@ class TextQuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder,array $options)
     {
         $builder
-            ->add('question',TextType::class)
+            ->add('questionText',TextType::class)
             ->add('section',ChoiceType::class,array(
                 'choices' => $options["created_sections"],
                 'label' => 'Section',

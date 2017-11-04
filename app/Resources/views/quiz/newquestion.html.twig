@@ -47,7 +47,7 @@
                     <div class="panel-body">
 
                         {{ form_start(form) }}
-                        {{ form_row(form.question) }}
+                        {{ form_row(form.questionText) }}
                         {{ form_label(form.answers) }}
 
                         <ul id="answer-list" data-prototype="{{ form_widget(form.answers.vars.prototype)|e }}">

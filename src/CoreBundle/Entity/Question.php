@@ -10,7 +10,6 @@
      */
     class Question
     {
-
         /**
          * @ORM\Id
          * @ORM\Column(type="integer")
@@ -43,156 +42,69 @@
             $this->answers = new ArrayCollection();
         }
 
-        public function getQuestion()
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        public function setQuestionText($questionText)
+        {
+            $this->questionText = $questionText;
+
+            return $this;
+        }
+
+        public function getQuestionText()
         {
             return $this->questionText;
         }
 
-        public function setQuestion($question)
+        public function setType($type)
         {
-            $this->questionText = $question;
+            $this->type = $type;
+
+            return $this;
         }
 
-    
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
+        public function getType()
+        {
+            return $this->type;
+        }
+
+        public function addAnswer(TextAnswer $answer)
+        {
+            $answer->setQuestion($this);
+            $this->answers->add($answer);
+
+            return $this;
+        }
+
+        public function removeAnswer(TextAnswer $answer)
+        {
+            $this->answers->removeElement($answer);
+        }
+
+        public function getAnswers()
+        {
+            return $this->answers;
+        }
+
+        public function setQuiz(Quiz $quiz = null)
+        {
+            $this->quiz = $quiz;
+
+            return $this;
+        }
+
+        public function setSection(Section $section = null)
+        {
+            $this->section = $section;
+
+            return $this;
+        }
+
+        public function getSection()
+        {
+            return $this->section;
+        }
     }
-
-    /**
-     * Set questionText
-     *
-     * @param string $questionText
-     *
-     * @return Question
-     */
-    public function setQuestionText($questionText)
-    {
-        $this->questionText = $questionText;
-
-        return $this;
-    }
-
-    /**
-     * Get questionText
-     *
-     * @return string
-     */
-    public function getQuestionText()
-    {
-        return $this->questionText;
-    }
-
-    /**
-     * Set type
-     *
-     * @param integer $type
-     *
-     * @return Question
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return integer
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Add answer
-     *
-     * @param \CoreBundle\Entity\TextAnswer $answer
-     *
-     * @return Question
-     */
-    public function addAnswer(\CoreBundle\Entity\TextAnswer $answer)
-    {
-        $answer->setQuestion($this);
-
-        $this->answers->add($answer);
-
-        return $this;
-    }
-
-    /**
-     * Remove answer
-     *
-     * @param \CoreBundle\Entity\TextAnswer $answer
-     */
-    public function removeAnswer(\CoreBundle\Entity\TextAnswer $answer)
-    {
-        $this->answers->removeElement($answer);
-    }
-
-    /**
-     * Get answers
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAnswers()
-    {
-        return $this->answers;
-    }
-
-    /**
-     * Set quiz
-     *
-     * @param \CoreBundle\Entity\Quiz $quiz
-     *
-     * @return Question
-     */
-    public function setQuiz(\CoreBundle\Entity\Quiz $quiz = null)
-    {
-        $this->quiz = $quiz;
-
-        return $this;
-    }
-
-    /**
-     * Get quiz
-     *
-     * @return \CoreBundle\Entity\Quiz
-     */
-    public function getQuiz()
-    {
-        return $this->quiz;
-    }
-
-    /**
-     * Set section
-     *
-     * @param \CoreBundle\Entity\Section $section
-     *
-     * @return Question
-     */
-    public function setSection(\CoreBundle\Entity\Section $section = null)
-    {
-        $this->section = $section;
-
-        return $this;
-    }
-
-    /**
-     * Get section
-     *
-     * @return \CoreBundle\Entity\Section
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-}

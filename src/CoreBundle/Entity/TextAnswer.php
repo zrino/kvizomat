@@ -54,38 +54,21 @@ namespace CoreBundle\Entity;
         {
             $this->isCorrect = $correct;
         }
-    
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * Set question
-     *
-     * @param \CoreBundle\Entity\Question $question
-     *
-     * @return TextAnswer
-     */
-    public function setQuestion(\CoreBundle\Entity\Question $question = null)
-    {
-        $this->question = $question;
+        public function getId()
+        {
+            return $this->id;
+        }
 
-        return $this;
-    }
+        public function setQuestion(Question $question = null)
+        {
+            $this->question = $question;
 
-    /**
-     * Get question
-     *
-     * @return \CoreBundle\Entity\Question
-     */
-    public function getQuestion()
-    {
-        return $this->question;
-    }
+            return $this;
+        }
+
+        public function getQuestion()
+        {
+            return $this->question;
+        }
 }

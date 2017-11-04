@@ -27,7 +27,7 @@ class Section
     private $questions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Quiz", inversedBy="sections")
+     * @ORM\ManyToOne(targetEntity="Quiz", inversedBy="sections", cascade={"persist"})
      * @ORM\JoinColumn(name="id_quiz", referencedColumnName="id")
      */
     private $quiz;
@@ -48,23 +48,11 @@ class Section
         $this->questions = new ArrayCollection();
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set sectionText
-     *
-     * @param string $sectionText
-     *
-     * @return Section
-     */
     public function setSectionText($sectionText)
     {
         $this->sectionText = $sectionText;
@@ -72,23 +60,11 @@ class Section
         return $this;
     }
 
-    /**
-     * Get sectionText
-     *
-     * @return string
-     */
     public function getSectionText()
     {
         return $this->sectionText;
     }
 
-    /**
-     * Set type
-     *
-     * @param integer $type
-     *
-     * @return Section
-     */
     public function setType($type)
     {
         $this->type = $type;
@@ -96,81 +72,43 @@ class Section
         return $this;
     }
 
-    /**
-     * Get type
-     *
-     * @return integer
-     */
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * Add question
-     *
-     * @param \CoreBundle\Entity\Question $question
-     *
-     * @return Section
-     */
-    public function addQuestion(\CoreBundle\Entity\Question $question)
+    public function addQuestion(Question $question)
     {
-        $this->questions[] = $question;
+        $question->setSection($this);
+        $this->questions->add($question);
 
         return $this;
     }
 
-    /**
-     * Remove question
-     *
-     * @param \CoreBundle\Entity\Question $question
-     */
-    public function removeQuestion(\CoreBundle\Entity\Question $question)
+    public function removeQuestion(Question $question)
     {
         $this->questions->removeElement($question);
     }
 
-    /**
-     * Get questions
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
+
     public function getQuestions()
     {
         return $this->questions;
     }
 
-    /**
-     * Set quiz
-     *
-     * @param \CoreBundle\Entity\Quiz $quiz
-     *
-     * @return Section
-     */
-    public function setQuiz(\CoreBundle\Entity\Quiz $quiz = null)
+
+    public function setQuiz(Quiz $quiz = null)
     {
         $this->quiz = $quiz;
 
         return $this;
     }
 
-    /**
-     * Get quiz
-     *
-     * @return \CoreBundle\Entity\Quiz
-     */
     public function getQuiz()
     {
         return $this->quiz;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Section
-     */
     public function setName($name)
     {
         $this->name = $name;
@@ -178,11 +116,6 @@ class Section
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
     public function getName()
     {
         return $this->name;

@@ -3,6 +3,7 @@
 namespace CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -12,38 +13,52 @@ use CoreBundle\Form\SectionType;
 use CoreBundle\Entity\Quiz;
 use CoreBundle\Entity\Question;
 use CoreBundle\Entity\Section;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuizController extends Controller
 {
 
     /**
-     * @Route("/quiz/{quiz_id}", name="quiz", requirements={"quiz_id": "\d+"}, defaults={"quiz_id" = 0})
+     * @Route("/quiz/{quiz_id}", name="quiz", requirements={"quiz_id": "\d+"})
+     * @param Request $request
+     * @param int $quiz_id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function quizAction(Request $request,$quiz_id=0)
+    public function quizAction(Request $request, $quiz_id = 0)
     {
+        if (null === $this->getUser()) {
+            return $this->redirectToRoute("login");
+        }
+
+        $user_id = $this->getUser()->getId();
+
         $quiz = new Quiz();
         if((int)$quiz_id!=0)
         {
-            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id));
+            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id, 'user' => $user_id ));
+            if(null === $quiz) {
+                return new Response("You're not allowed to do that!");
+            }
         }
+
         $form = $this->createForm(QuizType::class, $quiz);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             try{
-                $quiz->setUser($this->getUser());
                 $em = $this->getDoctrine()->getManager();
 
-                $em->persist($quiz);
-                $em->flush();
+                $quiz->setUser($this->getUser());
 
+                // always create section if Quiz is new
                 $section = new Section();
                 $section->setQuiz($quiz);
                 $section->setType(1);
-                $section->setName("Section 1");
+                $section->setName("Basic section");
+                $quiz->addSection($section);
 
-                $em->persist($section);
+                $em->persist($quiz);
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
@@ -69,9 +84,12 @@ class QuizController extends Controller
     }
 
 
-
     /**
-     * @Route("/{quiz_slug}/section/{section_id}", name="section", requirements={"section_id": "\d+"}, defaults={"section_id" = 0})
+     * @Route("/{quiz_slug}/section/{section_id}", name="section", requirements={"section_id": "\d+"})
+     * @param Request $request
+     * @param $quiz_slug
+     * @param int $section_id
+     * @return string|\Symfony\Component\HttpFoundation\Response
      */
     public function sectionAction(Request $request, $quiz_slug, $section_id = 0)
     {
@@ -144,9 +162,13 @@ class QuizController extends Controller
 
 
     /**
-     * @Route("/{quiz_slug}/question/{question_id}",name="question", requirements={"question_id": "\d+"}, defaults={"question_id" = 0})
+     * @Route("/{quiz_slug}/question/{question_id}",name="question", requirements={"question_id": "\d+"})
+     * @param Request $request
+     * @param $quiz_slug
+     * @param int $question_id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function questionAction(Request $request, $quiz_slug, $question_id=0)
+    public function questionAction(Request $request, $quiz_slug, $question_id = 0)
     {
         try{
             $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('slug' => $quiz_slug));

@@ -26,6 +26,8 @@ class Fixtures extends Fixture
         $zrino->setPlainPassword("abc123");
         $zrino->setIsActive(1);
 
+        $this->addReference('admin-user', $zrino);
+
         $manager->flush();
     }
 }

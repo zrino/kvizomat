@@ -8,8 +8,13 @@ services:
     class: CoreBundle\Listeners\UserListener
     autowire: true
     tags:
-        - { name: doctrine.event_subscriber }
+      - { name: doctrine.event_subscriber }
 
   core.security.login_authenticator:
     class: CoreBundle\Security\LoginAuthenticator
     autowire: true
+
+  core.twig.notice_extension:
+    class: CoreBundle\Twig\NoticeExtension
+    tags:
+      - { name: twig.extension }

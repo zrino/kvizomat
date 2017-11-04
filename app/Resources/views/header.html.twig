@@ -12,6 +12,7 @@
             </ul>
             <ul class="nav navbar-nav pull-right">
                 {% if is_granted('ROLE_USER') %}
+                    <li class=""><a href="{{ path("profile") }}">My profile</a></li>
                     <li class=""><a href="{{ path("logout") }}">Logout</a></li>
                 {% else %}
                     <li class=""><a href="{{ path("login") }}">Login</a></li>
