@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Questions
+{% endblock %}
 
 {% form_theme form _self "bootstrap_3_layout.html.twig" %}
 
@@ -45,6 +48,12 @@
                 <div class="panel">
                     <div class="panel-heading"> New question </div>
                     <div class="panel-body">
+                        {% for flashMessage in app.session.flashbag.get('changeQuestionNotice') %}
+                            <div class="alert alert-{{ notice(flashMessage[0]) }}">
+                                {{ flashMessage[1] }}
+                                <span class="close"></span>
+                            </div>
+                        {% endfor %}
 
                         {{ form_start(form) }}
                         {{ form_row(form.questionText) }}

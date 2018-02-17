@@ -2,6 +2,7 @@
 namespace CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 abstract class BaseController extends Controller
@@ -17,6 +18,11 @@ abstract class BaseController extends Controller
             $errorStr .= $error->getMessage() . PHP_EOL;
         }
         return $errorStr;
+    }
+
+    public function error404()
+    {
+        return new Response("You're not allowed to do that!");
     }
 
 }

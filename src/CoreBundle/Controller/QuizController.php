@@ -15,7 +15,7 @@ use CoreBundle\Entity\Question;
 use CoreBundle\Entity\Section;
 use Symfony\Component\HttpFoundation\Response;
 
-class QuizController extends Controller
+class QuizController extends BaseController
 {
 
     /**
@@ -26,10 +26,6 @@ class QuizController extends Controller
      */
     public function quizAction(Request $request, $quiz_id = 0)
     {
-        if (null === $this->getUser()) {
-            return $this->redirectToRoute("login");
-        }
-
         $user_id = $this->getUser()->getId();
 
         $quiz = new Quiz();
@@ -37,7 +33,7 @@ class QuizController extends Controller
         {
             $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('id' => $quiz_id, 'user' => $user_id ));
             if(null === $quiz) {
-                return new Response("You're not allowed to do that!");
+                return $this->error404();
             }
         }
 
@@ -62,8 +58,8 @@ class QuizController extends Controller
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
-                    'notice',
-                    'New quiz added!'
+                    'changeQuizNotice',
+                    [$this::SUCCESS_CODE, 'Changes saved!']
                 );
 
                 return $this->redirect($request->getUri());
@@ -71,8 +67,8 @@ class QuizController extends Controller
             catch (\Exception $e)
             {
                 $this->get('session')->getFlashBag()->add(
-                    'warning',
-                    'There was an error trying to save your data!'
+                    'changeQuizNotice',
+                    [$this::WARNING_CODE, 'There was an error trying to save your data!']
                 );
             }
         }
@@ -93,70 +89,64 @@ class QuizController extends Controller
      */
     public function sectionAction(Request $request, $quiz_slug, $section_id = 0)
     {
-        try{
-            $quiz = $this->getDoctrine()->getRepository('CoreBundle:Quiz')->findOneBy(array('slug' => $quiz_slug));
-            if(!$quiz)
-            {
-                throw $this->createNotFoundException('No quiz found for slug '.$quiz_slug);
-            }
+        $quiz = $this->getDoctrine()->getRepository(Quiz::class)->findByQuizAndSection($quiz_slug, $section_id);
+        if(!$quiz)
+        {
+            throw $this->createNotFoundException('No quiz found for slug '.$quiz_slug);
+        }
 
-            $sectionEnt = new Section();
-            if($section_id!=0)
-            {
-                $sectionEnt = $this->getDoctrine()->getRepository('CoreBundle:Section')->findOneBy(array('id' => $section_id));
-            }
-
+        $sectionEnt = new Section();
+        if($section_id != 0)
+        {
+            $sectionEnt = $this->getDoctrine()->getRepository('CoreBundle:Section')->findOneBy(array('id' => $section_id));
+        }
 
 
-            if($quiz->getUser() == $this->getUser() && ($section_id == 0 || ($sectionEnt->getQuiz()->getId() == $quiz->getId())))
-            {
-                $section = $this->createForm(SectionType::class, $sectionEnt);
-                $section->handleRequest($request);
+        if($quiz->getUser() == $this->getUser() && ($section_id == 0 || ($sectionEnt->getQuiz()->getId() == $quiz->getId())))
+        {
+            $section = $this->createForm(SectionType::class, $sectionEnt);
+            $section->handleRequest($request);
 
-                #questions
-                $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sectionEnt->getId()));
+            #questions
+            $questionList = $this->getDoctrine()->getManager()->getRepository('CoreBundle:Question')->findBy(array('section' => $sectionEnt->getId()));
 
-                $sectionList =$this->getDoctrine()->getManager()->getRepository('CoreBundle:Section')->findBy(array('quiz' => $quiz->getId()));
+            $sectionList =$this->getDoctrine()->getManager()->getRepository('CoreBundle:Section')->findBy(array('quiz' => $quiz->getId()));
 
-                if ($section->isSubmitted() && $section->isValid()) {
-                    try{
+            if ($section->isSubmitted() && $section->isValid()) {
+                try{
 
-                        $em = $this->getDoctrine()->getManager();
-                        $sectionEnt->setType(0);
-                        $sectionEnt->setQuiz($quiz);
-                        $em->persist($sectionEnt);
-                        $em->flush();
+                    $em = $this->getDoctrine()->getManager();
+                    $sectionEnt->setType(0);
+                    $sectionEnt->setQuiz($quiz);
+                    $em->persist($sectionEnt);
+                    $em->flush();
 
-                        $this->get('session')->getFlashBag()->add(
-                            'notice',
-                            'Section updated!'
-                        );
-                        return $this->redirectToRoute('section', array('quiz_slug' => $quiz_slug,"section_id" => $sectionEnt->getId()));
+                    $this->get('session')->getFlashBag()->add(
+                        'changeSectionNotice',
+                        [$this::SUCCESS_CODE, 'Changes saved!']
+                    );
 
-                    }
-                    catch (\Exception $e)
-                    {
-                        $this->get('session')->getFlashBag()->add(
-                            'warning',
-                            'There was an error trying to save your data!'
-                        );
-                    }
+                    return $this->redirectToRoute('section', array('quiz_slug' => $quiz_slug,"section_id" => $sectionEnt->getId()));
 
                 }
-                return $this->render('quiz/newsection.html.twig', array('form' => $section->createView(), "questionList" => $questionList,
-                    "quiz" => $quiz,
-                    "sectionList" => $sectionList,
-                    "currentSection" => $sectionEnt));
+                catch (\Exception $e)
+                {
+                    $this->get('session')->getFlashBag()->add(
+                        'changeSectionNotice',
+                        [$this::WARNING_CODE, 'There was an error trying to save your data!']
+                    );
+                }
 
             }
-            else
-            {
-                throw $this->createAccessDeniedException('Access denied for section '.$section_id);
-            }
+            return $this->render('quiz/newsection.html.twig', array('form' => $section->createView(), "questionList" => $questionList,
+                "quiz" => $quiz,
+                "sectionList" => $sectionList,
+                "currentSection" => $sectionEnt));
+
         }
-        catch(\Exception $e)
+        else
         {
-            return $e->getMessage();
+            throw $this->createAccessDeniedException('Access denied for section '.$section_id);
         }
     }
 
@@ -204,8 +194,8 @@ class QuizController extends Controller
                         $em->flush();
 
                         $this->get('session')->getFlashBag()->add(
-                            'notice',
-                            'New question added!'
+                            'changeQuestionNotice',
+                            [$this::SUCCESS_CODE, 'Changes saved!']
                         );
 
                         return $this->redirectToRoute('question', array('quiz_slug' => $quiz_slug, "question_id" => $questionEnt->getId()));
@@ -213,8 +203,8 @@ class QuizController extends Controller
                     catch (\Exception $e)
                     {
                         $this->get('session')->getFlashBag()->add(
-                            'warning',
-                            'There was an error trying to save your data!'
+                            'changeQuestionNotice',
+                            [$this::WARNING_CODE, 'There was an error trying to save your data!']
                         );
                     }
 

@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    
+
     {% for flashMessage in app.session.flashbag.get('changeProfileNotice') %}
         <div class="alert alert-{{ notice(flashMessage[0]) }}">
             {{ flashMessage[1] }}
         <span class="close"></span>
-    </div>
+        </div>
     {% endfor %}
 
     <div class="container">

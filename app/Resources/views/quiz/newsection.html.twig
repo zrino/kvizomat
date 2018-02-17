@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Sections
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="row">
@@ -22,13 +26,11 @@
                 <div class="panel">
                     <div class="panel-heading"> New section </div>
                     <div class="panel-body">
-                        {% for flashMessage in app.session.flashbag.get('notice') %}
-
-                            <div class="alert alert-success">
-                                {{ flashMessage }}
-                                <span class="close"></span>
-                            </div>
-
+                        {% for flashMessage in app.session.flashbag.get('changeSectionNotice') %}
+                        <div class="alert alert-{{ notice(flashMessage[0]) }}">
+                            {{ flashMessage[1] }}
+                            <span class="close"></span>
+                        </div>
                         {% endfor %}
                         {% form_theme form "bootstrap_3_layout.html.twig" %}
 

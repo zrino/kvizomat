@@ -8,7 +8,7 @@
     use CoreBundle\Traits\Timestampable;
     use Symfony\Component\Validator\Constraints as Assert;
     /**
-     * @ORM\Entity
+     * @ORM\Entity(repositoryClass="CoreBundle\Repository\QuizRepository")
      * @ORM\Table(name="quiz",uniqueConstraints={@ORM\UniqueConstraint(name="quiz_unique", columns={"id_user", "title"})})
      *
      * @ORM\HasLifecycleCallbacks()
