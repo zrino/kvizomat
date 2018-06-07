@@ -16,3 +16,4 @@
 /web/bundles/
 .core/
 .idea
+docker-compose.override.yml
