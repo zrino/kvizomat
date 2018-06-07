@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    php:
+      build:
+        context: ./docker/php
+        dockerfile: Dockerfile
+
+      volumes:
+        - ./:/var/www
+      links:
+        - database
+
+    database:
+      build:
+        context: ./docker/database
+        dockerfile: Dockerfile
+      ports:
+        - 33066:3306
+      volumes:
+        - ./var/docker/postgresql-files:/var/lib/postgresql/data
+
+    web_server:
+      build:
+        context: ./docker/web_server
+        dockerfile: Dockerfile
+      volumes:
+        - ./:/var/www
+        - ./var/docker/web_server:/var/logs
+      environment:
+        DOMAINS: "${APP_DOMAIN} www.${APP_DOMAIN}"
+      links:
+        - php
+      depends_on:
+        - php
+
+
+
