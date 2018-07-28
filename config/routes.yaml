@@ -1,0 +1,14 @@
+admin:
+    resource: ../src/CoreBundle/Quiz/Controller/Admin
+    type: annotation
+
+front:
+    resource: ../src/CoreBundle/Quiz/Controller/Front
+    type: annotation
+
+user:
+    resource: ../src/CoreBundle/User/Controller/
+    type: annotation
+
+logout:
+    path: /logout

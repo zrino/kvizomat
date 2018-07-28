@@ -4,3 +4,6 @@ services:
     web_server:
         ports:
             - 80:80
+    database:
+        ports:
+            - 33067:3306

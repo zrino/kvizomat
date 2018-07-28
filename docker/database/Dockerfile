@@ -1,2 +1,2 @@
-FROM postgres:10
+FROM mysql:5.6
 

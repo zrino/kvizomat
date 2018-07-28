@@ -1,5 +1,8 @@
 FROM debian:jessie
 
+ARG HOST_USER_ID
+ARG HOST_GROUP_ID
+
 # Install basic toolsdocker
 RUN apt-get update && apt-get install -y \
     apt-transport-https ca-certificates lsb-release \
@@ -26,6 +29,9 @@ RUN apt-get update && apt-get install -y \
     php7.2-curl \
     php7.2-pgsql
 
+RUN addgroup --gid ${HOST_GROUP_ID} app && \
+    adduser --shell /bin/bash --disabled-password --system --uid ${HOST_USER_ID}  --gid ${HOST_GROUP_ID} app
+
 # Customize PHP configuration
 COPY ./etc/php.ini              /etc/php/7.2/cli/conf.d/php_custom.ini
 COPY ./etc/php.ini              /etc/php/7.2/fpm/conf.d/php_custom.ini
@@ -40,7 +46,8 @@ RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && \
 WORKDIR /var/www
 EXPOSE 9000
 
-RUN mkdir /var/run/php
+USER app
+
 
 # Start PHP FPM daemon
 CMD /usr/sbin/php-fpm7.2 -F

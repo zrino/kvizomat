@@ -5,6 +5,9 @@ services:
       build:
         context: ./docker/php
         dockerfile: Dockerfile
+        args:
+          HOST_USER_ID: ${HOST_USER_ID}
+          HOST_GROUP_ID: ${HOST_GROUP_ID}
 
       volumes:
         - ./:/var/www
@@ -18,7 +21,11 @@ services:
       ports:
         - 33066:3306
       volumes:
-        - ./var/docker/postgresql-files:/var/lib/postgresql/data
+        - ./var/docker/mysql-files:/var/lib/mysql/data
+      environment:
+        MYSQL_ROOT_PASSWORD: greymane420
+        MYSQL_DATABASE: kvizomat
+
 
     web_server:
       build:
@@ -33,6 +40,14 @@ services:
         - php
       depends_on:
         - php
+
+    node:
+      build:
+        context: ./docker/node
+        dockerfile: Dockerfile
+      volumes:
+        - ./:/var/www
+
 
 
 

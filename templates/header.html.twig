@@ -1,0 +1,21 @@
+<header>
+    <div class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ path("user_registration") }}">Matura</a>
+            </div>
+            <ul class="nav navbar-nav">
+                {% if app.user is not null  %}
+                    <li class="active"> <a href="#"> My feed </a></li>
+                    <li> <a href="{{ path("user_profile") }}"> {% trans %}Profile {% endtrans %}</a></li>
+                    <li> <a href="#"> Dropdown</a></li>
+                    <li><a href="{{ path('logout') }}">{% trans %} Logout {% endtrans %}</a></li>
+                {% else %}
+                    <li> <a href="{{ path("user_login") }}"> Login </a></li>
+                    <li> <a href="{{ path("user_registration") }}"> Register </a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</header>
+

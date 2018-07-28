@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+COMMAND="$1"
+CONTAINER="$2"
+COMMAND_IN_CONTAINER="$3"
+
+userID=$(id -u ${USER})
+groupID=$(id -g ${USER})
+
+export HOST_USER_ID=${userID}
+export HOST_GROUP_ID=${groupID}
+
+
+case $COMMAND in
+    "start")
+        docker-compose build
+        docker-compose up -d
+        docker-compose ps
+        ;;
+    "stop")
+        docker-compose down
+        ;;
+    "restart")
+        docker-compose down
+        docker-compose build
+        docker-compose up -d
+        docker-compose ps
+        ;;
+    "exec")
+        docker-compose exec "$2" "$3" "${@:4}"
+        ;;
+     "run")
+        docker-compose  run "$2" "$3" "${@:4}"
+        ;;
+    "build-assets")
+        docker/bin/app run node ./node_modules/.bin/encore dev
+        ;;
+esac
+
+

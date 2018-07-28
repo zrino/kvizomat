@@ -1,0 +1,25 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="row">
+                <p>
+                    {{ question.questionText }}
+                </p>
+            </div>
+            <form action="{{ path('front_question_post') }}" method="post">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="_username" value="{% if lastUsername is defined %}{{ lastUsername }}{% endif%}" />
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="_password" />
+                </div>
+                <button type="submit">login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

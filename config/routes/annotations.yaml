@@ -1,0 +1,3 @@
+controllers:
+    resource: ../../src/CoreBundle/Quiz/Controller/
+    type: annotation

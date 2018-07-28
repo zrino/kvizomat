@@ -11,5 +11,5 @@ RUN apt-get update && apt-get install -y \
     vim \
     sed
 
-CMD sed 's:{{DOMAINS}}:'"$DOMAINS"':' sites-available/vhost.template.conf >\
- conf.d/default.conf && nginx -g "daemon off;"
+CMD sed 's:{{DOMAINS}}:'"$DOMAINS"':' sites-available/vhost.template.conf > \
+ conf.d/app.conf && nginx -g "daemon off;"
