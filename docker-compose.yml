@@ -21,7 +21,7 @@ services:
       ports:
         - 33066:3306
       volumes:
-        - ./var/docker/mysql-files:/var/lib/mysql/data
+        - ./var/docker/mysql-files:/var/lib/mysql
       environment:
         MYSQL_ROOT_PASSWORD: greymane420
         MYSQL_DATABASE: kvizomat
